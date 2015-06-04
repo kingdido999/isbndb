@@ -1,5 +1,14 @@
 <?php namespace ISBNdb;
 
+/**
+ * ISBNdb API v2 url and token setup
+ *
+ * http://isbndb.com/api/v2/docs
+ *
+ * @author     Pengcheng Ding <kingdido999@gmail.com>
+ * @copyright  Pengcheng Ding 2015
+ */
+
 class Isbn
 {
     const base_url = 'http://isbndb.com/api/v2/json/';

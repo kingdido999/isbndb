@@ -1,10 +1,19 @@
 <?php namespace ISBNdb;
 
+/**
+ * ISBNdb API v2 endpoint `/book`
+ *
+ * http://isbndb.com/api/v2/docs/books
+ *
+ * @author     Pengcheng Ding <kingdido999@gmail.com>
+ * @copyright  Pengcheng Ding 2015
+ */
+
 class Book extends Isbn
 {
     private $isbn;
-
     private $data;
+
     private $title;
     private $author_name;
     private $language;
