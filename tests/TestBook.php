@@ -7,77 +7,142 @@ use ISBNdb\Book;
 
 class TestBook extends PHPUnit_Framework_TestCase
 {
-    private $token;
-    private $isbn;
-    private $book;
-
-    public function setUp()
+    public function testValidToken()
     {
-        $this->token = 'YPKFSSUW';
-        $this->isbn = '084930315X';
-        $this->book = new Book($this->token, $this->isbn);
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
+        $result = $book->isValidToken();
+
+        $this->assertTrue($result);
+    }
+
+    public function testInValidToken()
+    {
+        $token = 'YPKFSS';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
+        $result = $book->isValidToken();
+
+        $this->assertFalse($result);
+    }
+
+    public function testFound()
+    {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
+        $result = $book->isFound();
+
+        $this->assertTrue($result);
+    }
+
+    public function testNotFound()
+    {
+        $token = 'YPKFSSUW';
+        $isbn = '084930325X';
+        $book = new Book($token, $isbn);
+
+        $result = $book->isFound();
+
+        $this->assertFalse($result);
     }
 
     public function testGetUrl()
     {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
         $expected = 'http://isbndb.com/api/v2/json/YPKFSSUW/book/084930315X';
-        $result = $this->book->getUrl();
+        $result = $book->getUrl();
 
         $this->assertEquals($expected, $result);
     }
 
     public function testGetTitle()
     {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
         $expected = 'Principles of solid mechanics';
-        $result = $this->book->getTitle();
+        $result = $book->getTitle();
 
         $this->assertEquals($expected, $result);
     }
 
     public function testGetAuthorName()
     {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
         $expected = 'Richards, Rowland';
-        $result = $this->book->getAuthorName();
+        $result = $book->getAuthorName();
 
         $this->assertEquals($expected, $result);
     }
 
     public function testGetLanguage()
     {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
         $expected = 'eng';
-        $result = $this->book->getLanguage();
+        $result = $book->getLanguage();
 
         $this->assertEquals($expected, $result);
     }
 
     public function testGetPublisherText()
     {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
         $expected = 'Boca Raton, FL : CRC Press, 2000.';
-        $result = $this->book->getPublisherText();
+        $result = $book->getPublisherText();
 
         $this->assertEquals($expected, $result);
     }
 
     public function testGetPublisherName()
     {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
         $expected = 'CRC Press';
-        $result = $this->book->getPublisherName();
+        $result = $book->getPublisherName();
 
         $this->assertEquals($expected, $result);
     }
 
     public function testGetIsbn10()
     {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
         $expected = '084930315X';
-        $result = $this->book->getIsbn10();
+        $result = $book->getIsbn10();
 
         $this->assertEquals($expected, $result);
     }
 
     public function testGetIsbn13()
     {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
         $expected = '9780849303159';
-        $result = $this->book->getIsbn13();
+        $result = $book->getIsbn13();
 
         $this->assertEquals($expected, $result);
     }

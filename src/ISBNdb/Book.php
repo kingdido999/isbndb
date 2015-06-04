@@ -13,6 +13,8 @@ class Book extends Isbn
 {
     private $isbn;
     private $data;
+    private $valid_token;
+    private $found;
 
     private $title;
     private $author_name;
@@ -38,7 +40,50 @@ class Book extends Isbn
         $json = file_get_contents($url);
         $obj = json_decode($json);
 
-        return $obj->data[0];
+        // success
+        if (isset($obj->data[0]))
+        {
+            $this->valid_token = true;
+            $this->found = true;
+            return $obj->data[0];
+        }
+        // error
+        else if (isset($obj->error))
+        {
+            // get the first three words of the error message
+            $pieces = explode(" ", $obj->error);
+            $error_msg = implode(" ", array_splice($pieces, 0, 3));
+
+            // invalid api key
+            if ($error_msg == "Invalid api key:")
+            {
+                $this->valid_token = false;
+                $this->found = false;
+                return $obj->error;
+            }
+
+            // the given isbn is not found
+            if ($error_msg == "Unable to locate")
+            {
+                $this->valid_token = true;
+                $this->found = false;
+                return $obj->error;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public function isValidToken()
+    {
+        return $this->valid_token;
+    }
+
+    public function isFound()
+    {
+        return $this->found;
     }
 
     public function getUrl()
