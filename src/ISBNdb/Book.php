@@ -2,42 +2,88 @@
 
 class Book extends Isbn
 {
+    private $isbn;
+
+    private $data;
+    private $title;
+    private $author_name;
     private $language;
     private $publisher_text;
     private $publisher_name;
-    private $title_latin;
+    private $summary;
+    private $notes;
     private $isbn_10;
     private $isbn_13;
-    private $notes;
-    private $summary;
-    private $title;
-    private $edition_info;
-    private $author_name;
 
-    public function __construct($token)
+    public function __construct($token, $isbn)
     {
         parent::__construct($token);
+
+        $this->isbn = $isbn;
+        $this->data = $this->requestData();
     }
 
-    public function getUrl($isbn)
+    public function requestData()
     {
-        return parent::base_url . $this->getToken() . Isbn::book_url . $isbn;
-    }
-
-    public function requestData($isbn)
-    {
-        $url = $this->getUrl($isbn);
+        $url = $this->getUrl($this->isbn);
         $json = file_get_contents($url);
         $obj = json_decode($json);
-        $data = $obj->data[0];
 
-        $this->language = $data->language;
+        return $obj->data[0];
+    }
 
-        return $obj;
+    public function getUrl()
+    {
+        return parent::base_url . $this->getToken() . Isbn::book_url . $this->isbn;
+    }
+
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    public function getTitle()
+    {
+        return $this->data->title;
+    }
+
+    public function getAuthorName()
+    {
+        return $this->data->author_data[0]->name;
     }
 
     public function getLanguage()
     {
-        return $this->language;
+        return $this->data->language;
+    }
+
+    public function getPublisherText()
+    {
+        return $this->data->publisher_text;
+    }
+
+    public function getPublisherName()
+    {
+        return $this->data->publisher_name;
+    }
+
+    public function getSummary()
+    {
+        return $this->data->summary;
+    }
+
+    public function getNotes()
+    {
+        return $this->data->notes;
+    }
+
+    public function getIsbn10()
+    {
+        return $this->data->isbn10;
+    }
+
+    public function getIsbn13()
+    {
+        return $this->data->isbn13;
     }
 }
