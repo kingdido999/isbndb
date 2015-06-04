@@ -103,7 +103,14 @@ class Book extends Isbn
 
     public function getAuthorName()
     {
-        return $this->data->author_data[0]->name;
+        if (isset($this->data->author_data[0]->name))
+        {
+            return $this->data->author_data[0]->name;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public function getLanguage()

@@ -87,6 +87,18 @@ class TestBook extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testGetAuthorNameNull()
+    {
+        $token = 'YPKFSSUW';
+        $isbn = '9780471302995';
+        $book = new Book($token, $isbn);
+
+        $expected = null;
+        $result = $book->getAuthorName();
+
+        $this->assertEquals($expected, $result);
+    }
+
     public function testGetLanguage()
     {
         $token = 'YPKFSSUW';
