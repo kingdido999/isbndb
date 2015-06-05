@@ -107,10 +107,30 @@ class Book extends Isbn
         {
             return $this->data->author_data[0]->name;
         }
-        else
+
+        return "";
+    }
+
+    public function getNumPages()
+    {
+        if (isset($this->data->physical_description_text))
         {
-            return null;
+            $subject = $this->data->physical_description_text;
+            $pattern1 = '/([\d]+)( )(p\.)/';      // e.g., "1 online resource (169 p.)"
+            $pattern2 = '/([\d]+)( )(pages)/';    // e.g., "8.3\"x10.8\"x0.2\"; 0.3 lb; 32 pages"
+
+            if (preg_match($pattern1, $subject, $matches))
+            {
+                return $matches[1];
+            }
+
+            if (preg_match($pattern2, $subject, $matches))
+            {
+                return $matches[1];
+            }
         }
+
+        return "";
     }
 
     public function getLanguage()

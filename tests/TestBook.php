@@ -93,8 +93,44 @@ class TestBook extends PHPUnit_Framework_TestCase
         $isbn = '9780471302995';
         $book = new Book($token, $isbn);
 
-        $expected = null;
+        $expected = '';
         $result = $book->getAuthorName();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testGetNumPagesPattern1()
+    {
+        $token = 'YPKFSSUW';
+        $isbn = '084930315X';
+        $book = new Book($token, $isbn);
+
+        $expected = '446';
+        $result = $book->getNumPages();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testGetNumPagesPattern2()
+    {
+        $token = 'YPKFSSUW';
+        $isbn = '9788131906804';
+        $book = new Book($token, $isbn);
+
+        $expected = '32';
+        $result = $book->getNumPages();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testGetNumPagesEmpty()
+    {
+        $token = 'YPKFSSUW';
+        $isbn = '9780471756934';
+        $book = new Book($token, $isbn);
+
+        $expected = '';
+        $result = $book->getNumPages();
 
         $this->assertEquals($expected, $result);
     }
