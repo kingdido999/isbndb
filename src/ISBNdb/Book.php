@@ -11,20 +11,33 @@
 
 class Book extends Isbn
 {
-    private $lookup_string;  // ISBN or book_id
-    private $data;
+    private $lookup_string;                 // ISBN or book_id
+    private $data;                          // returned JSON data
     private $valid_token;
     private $found;
 
+    private $index_searched;
+    private $book_id;
+    private $edition_info;
     private $title;
+    private $title_long;
+    private $title_latin;
+    private $author_id;
     private $author_name;
     private $language;
+    private $publisher_id;
     private $publisher_text;
     private $publisher_name;
     private $summary;
     private $notes;
     private $isbn_10;
     private $isbn_13;
+    private $awards_text;
+    private $subject_ids;
+    private $physical_description_text;
+    private $lcc_number;                    // library of congress number
+    private $dewey_decimal;                 // dewey decimal number
+    private $dewey_normal;
 
     public function __construct($token, $lookup_string)
     {
@@ -39,6 +52,11 @@ class Book extends Isbn
         $url = $this->getUrl();
         $json = file_get_contents($url);
         $obj = json_decode($json);
+
+        if (isset($obj->index_searched))
+        {
+            $this->index_searched = $obj->index_searched;
+        }
 
         // success
         if (isset($obj->data[0]))
@@ -91,16 +109,84 @@ class Book extends Isbn
         return $this->found;
     }
 
-
-
     public function getData()
     {
-        return $this->data;
+        if (isset($this->data))
+        {
+            return $this->data;
+        }
+
+        return "";
+    }
+
+    public function getIndexSearched()
+    {
+        if (isset($this->index_searched))
+        {
+            return $this->index_searched;
+        }
+
+        return "";
+    }
+
+    public function getBookId()
+    {
+        if (isset($this->data->book_id))
+        {
+            return $this->data->book_id;
+        }
+
+        return "";
+    }
+
+    public function getEditionInfo()
+    {
+        if (isset($this->data->edition_info))
+        {
+            return $this->data->edition_info;
+        }
+
+        return "";
     }
 
     public function getTitle()
     {
-        return $this->data->title;
+        if (isset($this->data->title))
+        {
+            return $this->data->title;
+        }
+
+        return "";
+    }
+
+    public function getTitleLong()
+    {
+        if (isset($this->data->title_long))
+        {
+            return $this->data->title_long;
+        }
+
+        return "";
+    }
+
+    public function getTitleLatin()
+    {
+        if (isset($this->data->title_latin))
+        {
+            return $this->data->title_latin;
+        }
+
+        return "";
+    }
+
+    public function getAuthorId()
+    {
+        if (isset($this->data->author_data[0]->id))
+        {
+            return $this->data->author_data[0]->id;
+        }
+
+        return "";
     }
 
     public function getAuthorName()
@@ -137,36 +223,141 @@ class Book extends Isbn
 
     public function getLanguage()
     {
-        return $this->data->language;
+        if (isset($this->data->language))
+        {
+            return $this->data->language;
+        }
+
+        return "";
+    }
+
+    public function getPublisherId()
+    {
+        if (isset($this->data->publisher_id))
+        {
+            return $this->data->publisher_id;
+        }
+
+        return "";
     }
 
     public function getPublisherText()
     {
-        return $this->data->publisher_text;
+        if (isset($this->data->publisher_text))
+        {
+            return $this->data->publisher_text;
+        }
+
+        return "";
     }
 
     public function getPublisherName()
     {
-        return $this->data->publisher_name;
+        if (isset($this->data->publisher_name))
+        {
+            return $this->data->publisher_name;
+        }
+
+        return "";
     }
 
     public function getSummary()
     {
-        return $this->data->summary;
+        if (isset($this->data->summary))
+        {
+            return $this->data->summary;
+        }
+
+        return "";
     }
 
     public function getNotes()
     {
-        return $this->data->notes;
+        if (isset($this->data->notes))
+        {
+            return $this->data->notes;
+        }
+
+        return "";
     }
 
     public function getIsbn10()
     {
-        return $this->data->isbn10;
+        if (isset($this->data->isbn10))
+        {
+            return $this->data->isbn10;
+        }
+
+        return "";
     }
 
     public function getIsbn13()
     {
-        return $this->data->isbn13;
+        if (isset($this->data->isbn13))
+        {
+            return $this->data->isbn13;
+        }
+
+        return "";
+    }
+
+    public function getAwardsText()
+    {
+        if (isset($this->data->awards_text))
+        {
+            return $this->data->awards_text;
+        }
+
+        return "";
+    }
+
+    public function getSubjectIds()
+    {
+        if (isset($this->data->subject_ids))
+        {
+            return $this->data->subject_ids;
+        }
+
+        return "";
+    }
+
+    public function getPhysicalDescriptionText()
+    {
+        if (isset($this->data->physical_description_text))
+        {
+            return $this->data->physical_description_text;
+        }
+
+        return "";
+    }
+
+    public function getLccNumber()
+    {
+        if (isset($this->data->lcc_number))
+        {
+            return $this->data->lcc_number;
+        }
+
+        return "";
+    }
+
+    public function getDeweyDecimal()
+    {
+        if (isset($this->data->dewey_decimal))
+        {
+            return $this->data->dewey_decimal;
+        }
+
+        return "";
+    }
+
+    public function getDeweyNormal()
+    {
+        if (isset($this->data->dewey_normal))
+        {
+            return $this->data->dewey_normal;
+        }
+
+        return "";
     }
 }
