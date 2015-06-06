@@ -11,7 +11,7 @@
 
 class Book extends Isbn
 {
-    private $lookup_string;                 // ISBN or book_id
+    private $query_string;                  // ISBN or book_id
     private $data;                          // returned JSON data
     private $valid_token;
     private $found;
@@ -39,11 +39,11 @@ class Book extends Isbn
     private $dewey_decimal;                 // dewey decimal number
     private $dewey_normal;
 
-    public function __construct($token, $lookup_string)
+    public function __construct($token, $query_string)
     {
         parent::__construct($token);
 
-        $this->lookup_string = $lookup_string;
+        $this->query_string = $query_string;
         $this->data = $this->requestData();
     }
 
@@ -96,7 +96,7 @@ class Book extends Isbn
 
     public function getUrl()
     {
-        return parent::base_url . $this->getToken() . Isbn::book_url . $this->lookup_string;
+        return parent::base_url . $this->getToken() . Isbn::book_url . $this->query_string;
     }
 
     public function isValidToken()
