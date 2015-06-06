@@ -15,3 +15,17 @@ PHP composer for isbndb.com API service.
 - [ ] `/category`
 - [ ] `/categories`
 - [ ] `/prices`
+
+## Usage
+
+#### Book
+
+```php
+
+$api_key = 'YOUR_API_KEY';
+$lookup_string = '084930315X';
+
+$book = new ISBNdb\Book($api_key, $lookup_string);
+$title = $book->getTitle();
+
+```
