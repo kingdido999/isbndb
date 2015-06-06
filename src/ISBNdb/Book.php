@@ -11,7 +11,7 @@
 
 class Book extends Isbn
 {
-    private $isbn;
+    private $lookup_string;  // ISBN or book_id
     private $data;
     private $valid_token;
     private $found;
@@ -26,17 +26,17 @@ class Book extends Isbn
     private $isbn_10;
     private $isbn_13;
 
-    public function __construct($token, $isbn)
+    public function __construct($token, $lookup_string)
     {
         parent::__construct($token);
 
-        $this->isbn = $isbn;
+        $this->lookup_string = $lookup_string;
         $this->data = $this->requestData();
     }
 
     public function requestData()
     {
-        $url = $this->getUrl($this->isbn);
+        $url = $this->getUrl();
         $json = file_get_contents($url);
         $obj = json_decode($json);
 
@@ -76,6 +76,11 @@ class Book extends Isbn
         }
     }
 
+    public function getUrl()
+    {
+        return parent::base_url . $this->getToken() . Isbn::book_url . $this->lookup_string;
+    }
+
     public function isValidToken()
     {
         return $this->valid_token;
@@ -86,10 +91,7 @@ class Book extends Isbn
         return $this->found;
     }
 
-    public function getUrl()
-    {
-        return parent::base_url . $this->getToken() . Isbn::book_url . $this->isbn;
-    }
+
 
     public function getData()
     {
