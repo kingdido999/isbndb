@@ -12,10 +12,7 @@
 class Book extends Isbn
 {
     private $data;                          // returned JSON data
-    private $valid_token;
-    private $found;
 
-    private $index_searched;
     private $book_id;
     private $edition_info;
     private $title;
@@ -41,69 +38,14 @@ class Book extends Isbn
     public function __construct($token, $query_string)
     {
         parent::__construct($token, $query_string);
+
+        $this->endpoint = parent::book_url;
         $this->data = $this->requestData();
     }
 
-    public function requestData()
+    public function getEndpoint()
     {
-        $url = $this->getUrl();
-        $json = file_get_contents($url);
-        $obj = json_decode($json);
-
-        if (isset($obj->index_searched))
-        {
-            $this->index_searched = $obj->index_searched;
-        }
-
-        // success
-        if (isset($obj->data[0]))
-        {
-            $this->valid_token = true;
-            $this->found = true;
-            return $obj->data[0];
-        }
-        // error
-        else if (isset($obj->error))
-        {
-            // get the first three words of the error message
-            $pieces = explode(" ", $obj->error);
-            $error_msg = implode(" ", array_splice($pieces, 0, 3));
-
-            // invalid api key
-            if ($error_msg == "Invalid api key:")
-            {
-                $this->valid_token = false;
-                $this->found = false;
-                return $obj->error;
-            }
-
-            // the given isbn is not found
-            if ($error_msg == "Unable to locate")
-            {
-                $this->valid_token = true;
-                $this->found = false;
-                return $obj->error;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public function getUrl()
-    {
-        return parent::base_url . $this->getToken() . Isbn::book_url . $this->getQueryString();
-    }
-
-    public function isValidToken()
-    {
-        return $this->valid_token;
-    }
-
-    public function isFound()
-    {
-        return $this->found;
+        return $this->endpoint;
     }
 
     public function getData()
@@ -111,16 +53,6 @@ class Book extends Isbn
         if (isset($this->data))
         {
             return $this->data;
-        }
-
-        return "";
-    }
-
-    public function getIndexSearched()
-    {
-        if (isset($this->index_searched))
-        {
-            return $this->index_searched;
         }
 
         return "";
