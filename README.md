@@ -22,8 +22,8 @@ PHP composer for isbndb.com API service.
 
 ```php
 $api_key = 'YOUR_API_KEY';
-$lookup_string = '084930315X';  // 10 or 13 digits ISBN or book id
+$query_string = '084930315X';  // 10 or 13 digits ISBN or book id
 
-$book = new ISBNdb\Book($api_key, $lookup_string);
+$book = new ISBNdb\Book($api_key, $query_string);
 $title = $book->getTitle();
 ```
