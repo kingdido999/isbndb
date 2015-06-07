@@ -30,6 +30,8 @@ class Isbn
     private $valid_token;
     private $found;
 
+    private $data;
+
     public function __construct($token, $query_string)
     {
         $this->token = $token;
@@ -71,6 +73,16 @@ class Isbn
         return $this->found;
     }
 
+    public function getData()
+    {
+        if (isset($this->data))
+        {
+            return $this->data;
+        }
+
+        return "";
+    }
+
     public function requestData()
     {
         $json = file_get_contents($this->getUrl());
@@ -86,7 +98,7 @@ class Isbn
         {
             $this->valid_token = true;
             $this->found = true;
-            return $obj->data[0];
+            $this->data = $obj->data[0];
         }
         // error
         else if (isset($obj->error))
@@ -100,7 +112,7 @@ class Isbn
             {
                 $this->valid_token = false;
                 $this->found = false;
-                return $obj->error;
+                $this->data = $obj->error;
             }
 
             // the given isbn is not found
@@ -108,12 +120,12 @@ class Isbn
             {
                 $this->valid_token = true;
                 $this->found = false;
-                return $obj->error;
+                $this->data = $obj->error;
             }
         }
         else
         {
-            return null;
+            $this->data = null;
         }
     }
 }
