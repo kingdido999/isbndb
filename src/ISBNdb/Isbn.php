@@ -13,7 +13,7 @@ class Isbn
 {
     const base_url = 'http://isbndb.com/api/v2/json/';
     const book_url = '/book/';
-    const books_url = '/books/';
+    const books_url = '/books?q=';
     const author_url = '/author/';
     const authors_url = '/authors/';
     const publisher_url = '/publisher/';
@@ -26,13 +26,21 @@ class Isbn
 
     private $token;
 
-    public function __construct($token)
+    public $query_string;
+
+    public function __construct($token, $query_string)
     {
         $this->token = $token;
+        $this->query_string = $query_string;
     }
 
     public function getToken()
     {
         return $this->token;
+    }
+
+    public function getQueryString()
+    {
+        return $this->query_string;
     }
 }
