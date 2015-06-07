@@ -38,7 +38,13 @@ class Book extends Isbn
         parent::__construct($token, $query_string);
 
         $this->endpoint = parent::book_url;
-        $this->requestData();
+        $obj = $this->requestData($this->getUrl());
+
+        if (isset($obj->data[0]))
+        {
+            $this->data = $obj->data[0];
+        }
+
     }
 
     public function getEndpoint()
@@ -48,9 +54,9 @@ class Book extends Isbn
 
     public function getBookId()
     {
-        if (isset($this->getData()->book_id))
+        if (isset($this->data->book_id))
         {
-            return $this->getData()->book_id;
+            return $this->data->book_id;
         }
 
         return "";
@@ -58,9 +64,9 @@ class Book extends Isbn
 
     public function getEditionInfo()
     {
-        if (isset($this->getData()->edition_info))
+        if (isset($this->data->edition_info))
         {
-            return $this->getData()->edition_info;
+            return $this->data->edition_info;
         }
 
         return "";
@@ -68,9 +74,9 @@ class Book extends Isbn
 
     public function getTitle()
     {
-        if (isset($this->getData()->title))
+        if (isset($this->data->title))
         {
-            return $this->getData()->title;
+            return $this->data->title;
         }
 
         return "";
@@ -78,9 +84,9 @@ class Book extends Isbn
 
     public function getTitleLong()
     {
-        if (isset($this->getData()->title_long))
+        if (isset($this->data->title_long))
         {
-            return $this->getData()->title_long;
+            return $this->data->title_long;
         }
 
         return "";
@@ -88,9 +94,9 @@ class Book extends Isbn
 
     public function getTitleLatin()
     {
-        if (isset($this->getData()->title_latin))
+        if (isset($this->data->title_latin))
         {
-            return $this->getData()->title_latin;
+            return $this->data->title_latin;
         }
 
         return "";
@@ -98,9 +104,9 @@ class Book extends Isbn
 
     public function getAuthorId()
     {
-        if (isset($this->getData()->author_data[0]->id))
+        if (isset($this->data->author_data[0]->id))
         {
-            return $this->getData()->author_data[0]->id;
+            return $this->data->author_data[0]->id;
         }
 
         return "";
@@ -108,9 +114,9 @@ class Book extends Isbn
 
     public function getAuthorName()
     {
-        if (isset($this->getData()->author_data[0]->name))
+        if (isset($this->data->author_data[0]->name))
         {
-            return $this->getData()->author_data[0]->name;
+            return $this->data->author_data[0]->name;
         }
 
         return "";
@@ -118,9 +124,9 @@ class Book extends Isbn
 
     public function getNumPages()
     {
-        if (isset($this->getData()->physical_description_text))
+        if (isset($this->data->physical_description_text))
         {
-            $subject = $this->getData()->physical_description_text;
+            $subject = $this->data->physical_description_text;
             $pattern1 = '/([\d]+)( )(p\.)/';      // e.g., "1 online resource (169 p.)"
             $pattern2 = '/([\d]+)( )(pages)/';    // e.g., "8.3\"x10.8\"x0.2\"; 0.3 lb; 32 pages"
 
@@ -140,9 +146,9 @@ class Book extends Isbn
 
     public function getLanguage()
     {
-        if (isset($this->getData()->language))
+        if (isset($this->data->language))
         {
-            return $this->getData()->language;
+            return $this->data->language;
         }
 
         return "";
@@ -150,9 +156,9 @@ class Book extends Isbn
 
     public function getPublisherId()
     {
-        if (isset($this->getData()->publisher_id))
+        if (isset($this->data->publisher_id))
         {
-            return $this->getData()->publisher_id;
+            return $this->data->publisher_id;
         }
 
         return "";
@@ -160,9 +166,9 @@ class Book extends Isbn
 
     public function getPublisherText()
     {
-        if (isset($this->getData()->publisher_text))
+        if (isset($this->data->publisher_text))
         {
-            return $this->getData()->publisher_text;
+            return $this->data->publisher_text;
         }
 
         return "";
@@ -170,9 +176,9 @@ class Book extends Isbn
 
     public function getPublisherName()
     {
-        if (isset($this->getData()->publisher_name))
+        if (isset($this->data->publisher_name))
         {
-            return $this->getData()->publisher_name;
+            return $this->data->publisher_name;
         }
 
         return "";
@@ -180,9 +186,9 @@ class Book extends Isbn
 
     public function getSummary()
     {
-        if (isset($this->getData()->summary))
+        if (isset($this->data->summary))
         {
-            return $this->getData()->summary;
+            return $this->data->summary;
         }
 
         return "";
@@ -190,9 +196,9 @@ class Book extends Isbn
 
     public function getNotes()
     {
-        if (isset($this->getData()->notes))
+        if (isset($this->data->notes))
         {
-            return $this->getData()->notes;
+            return $this->data->notes;
         }
 
         return "";
@@ -200,9 +206,9 @@ class Book extends Isbn
 
     public function getIsbn10()
     {
-        if (isset($this->getData()->isbn10))
+        if (isset($this->data->isbn10))
         {
-            return $this->getData()->isbn10;
+            return $this->data->isbn10;
         }
 
         return "";
@@ -210,9 +216,9 @@ class Book extends Isbn
 
     public function getIsbn13()
     {
-        if (isset($this->getData()->isbn13))
+        if (isset($this->data->isbn13))
         {
-            return $this->getData()->isbn13;
+            return $this->data->isbn13;
         }
 
         return "";
@@ -220,9 +226,9 @@ class Book extends Isbn
 
     public function getAwardsText()
     {
-        if (isset($this->getData()->awards_text))
+        if (isset($this->data->awards_text))
         {
-            return $this->getData()->awards_text;
+            return $this->data->awards_text;
         }
 
         return "";
@@ -230,9 +236,9 @@ class Book extends Isbn
 
     public function getSubjectIds()
     {
-        if (isset($this->getData()->subject_ids))
+        if (isset($this->data->subject_ids))
         {
-            return $this->getData()->subject_ids;
+            return $this->data->subject_ids;
         }
 
         return "";
@@ -240,9 +246,9 @@ class Book extends Isbn
 
     public function getPhysicalDescriptionText()
     {
-        if (isset($this->getData()->physical_description_text))
+        if (isset($this->data->physical_description_text))
         {
-            return $this->getData()->physical_description_text;
+            return $this->data->physical_description_text;
         }
 
         return "";
@@ -250,9 +256,9 @@ class Book extends Isbn
 
     public function getLccNumber()
     {
-        if (isset($this->getData()->lcc_number))
+        if (isset($this->data->lcc_number))
         {
-            return $this->getData()->lcc_number;
+            return $this->data->lcc_number;
         }
 
         return "";
@@ -260,9 +266,9 @@ class Book extends Isbn
 
     public function getDeweyDecimal()
     {
-        if (isset($this->getData()->dewey_decimal))
+        if (isset($this->data->dewey_decimal))
         {
-            return $this->getData()->dewey_decimal;
+            return $this->data->dewey_decimal;
         }
 
         return "";
@@ -270,9 +276,9 @@ class Book extends Isbn
 
     public function getDeweyNormal()
     {
-        if (isset($this->getData()->dewey_normal))
+        if (isset($this->data->dewey_normal))
         {
-            return $this->getData()->dewey_normal;
+            return $this->data->dewey_normal;
         }
 
         return "";

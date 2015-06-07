@@ -48,9 +48,16 @@ class Isbn
         return $this->query_string;
     }
 
-    public function getUrl()
+    public function getUrl($index=null)
     {
-        return Isbn::base_url . $this->getToken() . $this->getEndpoint() . $this->getQueryString();
+        $url = Isbn::base_url . $this->getToken() . $this->getEndpoint() . $this->getQueryString();
+
+        if ($index != null)
+        {
+            $url .= $index;
+        }
+
+        return $url;
     }
 
     public function getIndexSearched()
@@ -73,19 +80,9 @@ class Isbn
         return $this->found;
     }
 
-    public function getData()
+    public function requestData($url)
     {
-        if (isset($this->data))
-        {
-            return $this->data;
-        }
-
-        return "";
-    }
-
-    public function requestData()
-    {
-        $json = file_get_contents($this->getUrl());
+        $json = file_get_contents($url);
         $obj = json_decode($json);
 
         if (isset($obj->index_searched))
@@ -94,11 +91,11 @@ class Isbn
         }
 
         // success
-        if (isset($obj->data[0]))
+        if (isset($obj->data))
         {
             $this->valid_token = true;
             $this->found = true;
-            $this->data = $obj->data[0];
+            return $obj;
         }
         // error
         else if (isset($obj->error))
@@ -112,7 +109,7 @@ class Isbn
             {
                 $this->valid_token = false;
                 $this->found = false;
-                $this->data = $obj->error;
+                return $obj->error;
             }
 
             // the given isbn is not found
@@ -120,12 +117,12 @@ class Isbn
             {
                 $this->valid_token = true;
                 $this->found = false;
-                $this->data = $obj->error;
+                return $obj->error;
             }
         }
         else
         {
-            $this->data = null;
+            return null;
         }
     }
 }
